@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design direction: a drafting sheet.
+   The product turns an idea into a "blueprint", so the page borrows the
+   vocabulary of technical drawings: cyanotype blue on cool paper, a faint
+   grid, hairline rules, mono annotation labels and a drawing title block.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-ink: #0b1d33;
+  --color-ink-soft: #4a627e;
+  --color-paper: #eef2f8;
+  --color-sheet: #ffffff;
+  --color-rule: #ccd9e8;
+  --color-blueprint: #1b5fc1;
+  --color-blueprint-deep: #123f83;
+  --color-blueprint-soft: #e5edfb;
+  --color-redline: #c8453a;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    /* Faint drafting grid + a soft wash behind the hero. */
+    background-image:
+      radial-gradient(
+        60rem 32rem at 50% -8rem,
+        rgba(27, 95, 193, 0.13),
+        transparent 70%
+      ),
+      linear-gradient(to right, rgba(27, 95, 193, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(27, 95, 193, 0.055) 1px, transparent 1px);
+    background-size: 100% 100%, 28px 28px, 28px 28px;
+    background-attachment: fixed;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blueprint);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Mono annotation label, as used on engineering drawings. */
+.annotation {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Corner crop marks that make a panel read as a drawing sheet. */
+.sheet {
+  position: relative;
+}
+
+.sheet::before,
+.sheet::after {
+  content: "";
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-color: var(--color-blueprint);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sheet::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.sheet::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* --- Markdown rendering for the generated blueprint ---------------------- */
+.blueprint-body {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #23374f;
+}
+
+.blueprint-body > * + * {
+  margin-top: 1rem;
+}
+
+.blueprint-body h1,
+.blueprint-body h2,
+.blueprint-body h3 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.blueprint-body h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.blueprint-body h2 {
+  font-size: 1.1875rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.blueprint-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.blueprint-body ul,
+.blueprint-body ol {
+  padding-left: 1.25rem;
+}
+
+.blueprint-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.blueprint-body ul > li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.blueprint-body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.125rem;
+  top: 0.6875rem;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border: 1.5px solid var(--color-blueprint);
+}
+
+.blueprint-body ol {
+  list-style: decimal;
+}
+
+.blueprint-body ol > li::marker {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-blueprint);
+}
+
+.blueprint-body li + li {
+  margin-top: 0.375rem;
+}
+
+.blueprint-body strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.blueprint-body a {
+  color: var(--color-blueprint);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blueprint-body code {
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+  background: var(--color-blueprint-soft);
+  color: var(--color-blueprint-deep);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.blueprint-body pre {
+  background: var(--color-ink);
+  color: #dbe6f5;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.blueprint-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+.blueprint-body blockquote {
+  border-left: 2px solid var(--color-blueprint);
+  padding-left: 1rem;
+  color: var(--color-ink-soft);
+}
+
+.blueprint-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.blueprint-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.blueprint-body th,
+.blueprint-body td {
+  border: 1px solid var(--color-rule);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.blueprint-body th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-blueprint-soft);
+}
